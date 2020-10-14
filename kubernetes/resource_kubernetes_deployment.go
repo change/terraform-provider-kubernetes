@@ -282,6 +282,7 @@ func resourceKubernetesDeploymentUpdate(d *schema.ResourceData, meta interface{}
 
 	if d.Get("wait_for_rollout").(bool) {
 		log.Printf("[INFO] Waiting for deployment %s/%s to rollout", out.ObjectMeta.Namespace, out.ObjectMeta.Name)
+		time.Sleep(1 * time.Second)
 		err := resource.Retry(d.Timeout(schema.TimeoutCreate),
 			waitForDeploymentReplicasFunc(ctx, conn, out.GetNamespace(), out.GetName()))
 		if err != nil {
